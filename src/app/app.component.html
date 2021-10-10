@@ -1,0 +1,197 @@
+<div class="container-fluid">
+  <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+        <button
+          class="accordion-button"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseOne"
+          aria-expanded="true"
+          aria-controls="panelsStayOpen-collapseOne"
+        >
+          Accordion Item #1
+        </button>
+      </h2>
+      <div
+        id="panelsStayOpen-collapseOne"
+        class="accordion-collapse collapse show"
+        aria-labelledby="panelsStayOpen-headingOne"
+      >
+        <div class="accordion-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Subject</label
+                >
+                <select
+                  class="form-select"
+                  [(ngModel)]="tenseSel.sub"
+                  (change)="tenseSel.help = ''; tenseSel.verb = ''"
+                >
+                  <option
+                    *ngFor="let item of tense"
+                    [ngValue]="item"
+                    (change)="tenseSel.verb = ''"
+                  >
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Helping</label
+                >
+                <select class="form-select" [(ngModel)]="tenseSel.help">
+                  <option
+                    *ngFor="let item of tenseSel.sub.child"
+                    [ngValue]="item"
+                  >
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!--  -->
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Verb</label
+                >
+                <select class="form-select" [(ngModel)]="tenseSel.verb">
+                  <option
+                    *ngFor="let item of tenseSel.help.child"
+                    [ngValue]="item"
+                  >
+                    {{ item.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <!--  -->
+
+            <div class="col-md-12 text-end">
+              <button
+                type="button"
+                class="btn btn-success me-2"
+                (click)="play('play')"
+              >
+                play
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary me-2"
+                (click)="play('pause')"
+              >
+                pause
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-primary me-2"
+                (click)="play('resume')"
+              >
+                resume
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger me-2"
+                (click)="play('cancel')"
+              >
+                cancel
+              </button>
+              <button (click)="create()" type="button" class="btn btn-primary">
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+        <button
+          class="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#panelsStayOpen-collapseTwo"
+          aria-expanded="false"
+          aria-controls="panelsStayOpen-collapseTwo"
+        >
+          Audio Settings
+        </button>
+      </h2>
+      <div
+        id="panelsStayOpen-collapseTwo"
+        class="accordion-collapse collapse"
+        aria-labelledby="panelsStayOpen-headingTwo"
+      >
+        <div class="accordion-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >Rate {{ setting.range }}</label
+                >
+                <input
+                  class="form-range"
+                  type="range"
+                  id="rate"
+                  name="rate"
+                  min="-10"
+                  max="10"
+                  [(ngModel)]="setting.range"
+                  (change)="rangeChange(setting.range, 'rate')"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >pitch {{ setting.pitch }}</label
+                >
+                <input
+                  class="form-range"
+                  type="range"
+                  id="pitch"
+                  name="pitch"
+                  min="-10"
+                  max="10"
+                  [(ngModel)]="setting.pitch"
+                  (change)="rangeChange(setting.pitch, 'pitch')"
+                />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >voice type</label
+                >
+                <select
+                  class="form-select"
+                  [(ngModel)]="setting.voiceId"
+                  (change)="voiceChange(setting.voiceId)"
+                >
+                  <option
+                    *ngFor="let i of voices; let ind = index"
+                    [value]="ind"
+                  >
+                    {{ i.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ol>
+    <li *ngFor="let i of setting.msg.split(',')">{{ i }}</li>
+  </ol>
+</div>
