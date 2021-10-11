@@ -24,9 +24,104 @@ export class AppComponent implements OnInit {
       ing_form: 'standing',
        */
   tenseSel: any = {
-    sub: '',
-    help: '',
-    verb: '',
+    sub: {
+      key: 'i',
+      value: 'i',
+      child: [
+        {
+          key: '',
+          value: 's/es,v2',
+          child: [
+            {
+              key: 's_es_ies',
+              value: 's_es_ies',
+            },
+            {
+              key: 'Past_Form',
+              value: 'Past_Form',
+            },
+          ],
+        },
+        {
+          key: 'am',
+          value: 'am+v1+ing',
+          child: [
+            {
+              key: 'ing_form',
+              value: 'ing_form',
+            },
+          ],
+        },
+        {
+          key: 'do',
+          value: 'do+v1+s/es',
+          child: [
+            {
+              key: 's_es_ies',
+              value: 's_es_ies',
+            },
+          ],
+        },
+        {
+          key: 'have',
+          value: 'have+v3',
+          child: [
+            {
+              key: 'Past_Participle_Form',
+              value: 'Past_Participle_Form',
+            },
+          ],
+        },
+        {
+          key: 'did',
+          value: 'did+v1',
+          child: [
+            {
+              key: 'Base_Form',
+              value: 'Base_Form',
+            },
+          ],
+        },
+        {
+          key: 'was',
+          value: 'was+ing',
+          child: [
+            {
+              key: 'ing_form',
+              value: 'ing_form',
+            },
+          ],
+        },
+        {
+          key: 'had',
+          value: 'had+v3',
+          child: [
+            {
+              key: 'Past_Participle_Form',
+              value: 'Past_Participle_Form',
+            },
+          ],
+        },
+      ],
+    },
+    help: {
+      key: '',
+      value: 's/es,v2',
+      child: [
+        {
+          key: 's_es_ies',
+          value: 's_es_ies',
+        },
+        {
+          key: 'Past_Form',
+          value: 'Past_Form',
+        },
+      ],
+    },
+    verb: {
+      key: 'Past_Form',
+      value: 'Past_Form',
+    },
   };
   tense = [
     {
@@ -376,6 +471,7 @@ export class AppComponent implements OnInit {
     rate: 1,
     pitch: 10,
     msg: '',
+    msg2: [''],
     sent: [
       'Base_Form',
       'Past_Form',
@@ -424,6 +520,19 @@ export class AppComponent implements OnInit {
         );
       })
       .join(', ');
+    this.setting.msg2 = this.hs.data
+      .map((d: any) => {
+        return (
+          this.tenseSel.sub.key +
+          ' ' +
+          this.tenseSel.help.key +
+          ' ' +
+          d[this.tenseSel.verb.key] +
+          ' ' +
+          d['sent1_mr']
+        );
+      })
+      .join(', ');
     this.message = new SpeechSynthesisUtterance(this.setting.msg);
     console.log('dd=>', this.message);
   }
@@ -435,15 +544,16 @@ export class AppComponent implements OnInit {
       })
       .join(', ');
 
+    this.setting.msg2 = this.setting.msg;
     this.message = new SpeechSynthesisUtterance(this.setting.msg);
   }
 
   ngOnInit() {
     let t = this;
-    t.sentSelChange('sent1');
+    t.create();
     setTimeout(() => {
       t.voices = window.speechSynthesis.getVoices();
-    }, 200);
+    }, 1000);
   }
   rangeChange(range: any, id: any) {
     console.log(this.message, id, range);
